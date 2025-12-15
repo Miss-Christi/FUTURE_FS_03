@@ -1,26 +1,8 @@
-'use client';
-
 import { getBook, getBooks } from '@/lib/firebase';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Star, ArrowLeft, BookOpen, MessageSquare, ThumbsUp, Share2 } from 'lucide-react';
 import { useState } from 'react';
-
-const fallbackCover = "https://plus.unsplash.com/premium_vector-1733925689480-08c807c00848?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-
-function CoverImage({ src, alt }) {
-  const [imgSrc, setImgSrc] = useState(src);
-  return (
-    <Image
-      src={imgSrc}
-      fill
-      alt={alt}
-      className="object-cover"
-      onError={() => setImgSrc(fallbackCover)}
-    />
-  );
-}
-
 
 export async function generateMetadata({ params }) {
   const book = await getBook(params.id);
