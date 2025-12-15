@@ -2,6 +2,23 @@ import { getBook, getBooks } from '@/lib/firebase';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Star, ArrowLeft, BookOpen, MessageSquare, ThumbsUp, Share2 } from 'lucide-react';
+import { useState } from 'react';
+
+const fallbackCover = "https://plus.unsplash.com/premium_vector-1733925689480-08c807c00848?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+
+function CoverImage({ src, alt }) {
+  const [imgSrc, setImgSrc] = useState(src);
+  return (
+    <Image
+      src={imgSrc}
+      fill
+      alt={alt}
+      className="object-cover"
+      onError={() => setImgSrc(fallbackCover)}
+    />
+  );
+}
+
 
 export async function generateMetadata({ params }) {
   const book = await getBook(params.id);
@@ -32,16 +49,16 @@ export default async function BookDetails({ params }) {
        <div className="relative h-[40vh] w-full overflow-hidden border-b border-white/5">
           <Image src={book.CoverUrl} alt="bg" fill className="object-cover opacity-20 blur-3xl scale-110" />
           <div className="absolute inset-0 bg-gradient-to-t from-primary to-transparent" />
-       </div>
+      </div>
 
-       <div className="container mx-auto px-4 -mt-48 relative z-10">
-          <Link href="/" className="inline-flex items-center text-gray-400 hover:text-white mb-6 transition-colors backdrop-blur-md bg-black/20 px-4 py-2 rounded-full font-medium"><ArrowLeft className="w-4 h-4 mr-2"/> Back to Feed</Link>
+      <div className="container mx-auto px-4 -mt-48 relative z-10">
+         <Link href="/" className="inline-flex items-center text-gray-400 hover:text-white mb-6 transition-colors backdrop-blur-md bg-black/20 px-4 py-2 rounded-full font-medium"><ArrowLeft className="w-4 h-4 mr-2"/> Back to Feed</Link>
           
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-             {/* Left Column: Cover & Sticky Actions */}
-             <div className="lg:col-span-3 flex flex-col gap-6">
+         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            {/* Left Column: Cover & Sticky Actions */}
+            <div className="lg:col-span-3 flex flex-col gap-6">
                <div className="relative aspect-[2/3] w-full rounded-lg overflow-hidden shadow-2xl ring-1 ring-white/10">
-                 <Image src={book.CoverUrl} fill alt={book.Title} className="object-cover" />
+                 <CoverImage src={book.CoverUrl} alt={book.Title} />
                </div>
                
                <div className="flex flex-col gap-3">
@@ -97,7 +114,7 @@ export default async function BookDetails({ params }) {
                         {recommendations.map(rb => (
                            <Link key={rb.id} href={`/book/${rb.id}`} className="group block bg-primary-dark rounded-xl p-3 hover:bg-white/5 transition-all border border-transparent hover:border-white/10">
                               <div className="relative aspect-[2/3] rounded-lg overflow-hidden mb-3 shadow-lg group-hover:scale-105 transition-transform">
-                                 <Image src={rb.CoverUrl} fill alt={rb.Title} className="object-cover" />
+                                 <CoverImage src={rb.CoverUrl} alt={rb.Title} />
                               </div>
                               <h4 className="text-sm font-bold text-white truncate group-hover:text-accent">{rb.Title}</h4>
                               <p className="text-xs text-gray-500 truncate">{rb.Author}</p>

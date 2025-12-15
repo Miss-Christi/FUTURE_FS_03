@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { getBooks } from '@/lib/firebase';
 import HomeFeed from '@/components/HomeFeed'; 
 
