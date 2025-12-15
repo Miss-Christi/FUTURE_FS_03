@@ -6,7 +6,7 @@ import { Search, Bell, User } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-export default function Navbar() {
+export default function NavBar() {
   const router = useRouter();
   const [query, setQuery] = useState('');
 
